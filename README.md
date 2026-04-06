@@ -1,51 +1,59 @@
-# Welcome to your Expo app 👋
+# 📱 Annuaire Mobile des SAé MMI
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Bienvenue sur le projet d'Annuaire Mobile des SAé (Situations d'Apprentissage et d'Évaluation) pour le département MMI. Cette application permet de recenser les différentes UE, de consulter leurs détails, et de répartir les étudiants au sein de groupes de projets de manière simple et intuitive.
 
-## Get started
+---
 
-1. Install dependencies
+## 👨‍💻 L'Équipe
 
+Ce projet a été réalisé en binôme avec une séparation claire des rôles :
+- **Hugo** : Conception et développement du **Backend** (architecture serveur, base de données, API REST).
+- **Ruben** : Conception et développement du **Frontend** (interface utilisateur mobile, navigation, intégration API).
+
+---
+
+## 🛠️ Technologies Utilisées
+
+**Côté Backend (Hugo) :**
+- **Java Spring Boot** : Création de l'API REST robuste permettant de communiquer avec le mobile.
+- **Hibernate / JPA / H2** : Gestion de la base de données relationnelle intégrant la gestion des limites de capacité par groupe et la persistance des étudiants.
+
+**Côté Frontend (Ruben) :**
+- **React Native & Expo** : Développement de l'application mobile multi-plateforme.
+- **Axios** : Requêtes HTTP pour dialoguer dynamiquement avec l'API Sprint Boot.
+- **StyleSheet pur** : Design moderne, clair et natif sans utilisation de frameworks lourds.
+
+---
+
+## ✨ Fonctionnalités Principales
+
+- **Consulter les SAé** : Vue d'ensemble depuis l'accueil des différentes SAé triées, par domaine (Développement, Communication, etc.) et moyenne globale de l'UE.
+- **Création de SAé** : Formulaire permettant de générer une nouvelle SAé via des menus déroulants pré-définis pour éviter les erreurs de saisie.
+- **Détails de Projet** : Affichage complet des informations d'une SAé et de tous ses groupes associés.
+- **Création de Groupes** : Affectation des étudiants au sein d'une SAé (jusqu'à 4 étudiants). L'étudiant numéro 1 est automatiquement nommé "Chef de projet", et le formulaire gère les notes individuelles grâce à un système ergonomique de listes déroulantes de 0 à 20. L'application met à jour les données du serveur instantanément.
+
+---
+
+## 🚀 Comment exécuter l'application ?
+
+### Étape 1 : Le Backend (Java / Docker)
+1. Ouvrez le dossier du projet Backend.
+2. Démarrez le serveur et la base de données via Docker en exécutant la commande :
+   ```bash
+   docker-compose up --build
+   ```
+   *(Ou les commandes docker équivalentes selon la configuration du projet).*
+3. Le serveur de l'API tournera sur le port local `8080`.
+
+### Étape 2 : Le Frontend (React Native)
+1. Ouvrez le dossier principal du projet mobile dans un terminal.
+2. Si c'est votre premier lancement, installez les modules nécessaires :
    ```bash
    npm install
    ```
-
-2. Start the app
-
+3. (Si vous testez sur un vrai téléphone, assurez-vous de renseigner l'adresse IP de l'ordinateur dans le fichier `apiConfig.ts`).
+4. Lancez l'outil Expo :
    ```bash
    npx expo start
    ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
-# MMI_MOBILE-
+5. Appuyez sur `w` pour ouvrir la version Web, ou utilisez votre téléphone via l'application **Expo Go** en flashant le QR Code.
