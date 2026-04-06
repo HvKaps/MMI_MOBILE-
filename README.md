@@ -16,7 +16,7 @@ Ce projet a été réalisé en binôme avec une séparation claire des rôles :
 
 **Côté Backend (Hugo) :**
 - **Java Spring Boot** : Création de l'API REST robuste permettant de communiquer avec le mobile.
-- **Hibernate / JPA / H2** : Gestion de la base de données relationnelle intégrant la gestion des limites de capacité par groupe et la persistance des étudiants.
+- **Docker** : Conteneurisation de l'application et de son environnement de données pour assurer un déploiement simple, uniforme et rapide.
 
 **Côté Frontend (Ruben) :**
 - **React Native & Expo** : Développement de l'application mobile multi-plateforme.
