@@ -1,35 +1,16 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
+import { Stack } from 'expo-router';
 
-import { HapticTab } from '@/components/haptic-tab';
-import { IconSymbol } from '@/components/ui/icon-symbol';
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
-
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
+export default function MiseEnPage() {
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
-        tabBarButton: HapticTab,
-      }}>
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
-        }}
-      />
-      <Tabs.Screen
-        name="explore"
-        options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
-        }}
-      />
-    </Tabs>
+    <Stack screenOptions={{
+      headerStyle: { backgroundColor: '#6C63FF' }, // Une belle couleur violette moderne
+      headerTintColor: '#fff',
+      headerTitleStyle: { fontWeight: 'bold' },
+    }}>
+      <Stack.Screen name="index" options={{ title: 'Annuaire MMI' }} />
+      <Stack.Screen name="details" options={{ title: 'Détails de la SAé' }} />
+      <Stack.Screen name="ajouter-sae" options={{ title: 'Nouvelle SAé', presentation: 'modal' }} />
+      <Stack.Screen name="ajouter-groupe" options={{ title: 'Nouveau Groupe', presentation: 'modal' }} />
+    </Stack>
   );
 }

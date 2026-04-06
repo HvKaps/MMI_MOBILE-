@@ -1,98 +1,65 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import React, { useState, useCallback } from 'react';
+import { StyleSheet, Text, View, FlatList, TouchableOpacity, Button, Alert } from 'react-native';
+import { router, useFocusEffect } from 'expo-router';
+import axios from 'axios';
+import { API_URL } from '../../apiConfig';
 
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+export default function EcranAccueil() {
+  const [listeSaes, setListeSaes] = useState<any[]>([]);
 
-export default function HomeScreen() {
+  useFocusEffect(
+    useCallback(() => {
+      axios.get(`${API_URL}/classement`)
+        .then(reponse => setListeSaes(reponse.data))
+        .catch(erreur => {
+          console.log(erreur);
+          Alert.alert("Erreur connexion", `Impossible de joindre le backend à l'adresse :\n${API_URL}\n\nVérifie que ton IP n'a pas changé dans apiConfig.tsx.`);
+        });
+    }, [])
+  );
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
+    <View style={styles.conteneur}>
+      <Text style={styles.titrePage}>Annuaire des SAé MMI</Text>
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+      <FlatList
+        data={listeSaes}
+        ListEmptyComponent={<Text style={{textAlign: 'center', marginVertical: 20, fontStyle: 'italic', color: '#666'}}>Auncune SAé trouvée ou connexion en cours...</Text>}
+        renderItem={({ item }) => (
+          <TouchableOpacity 
+            style={styles.carteSae}
+            onPress={() => {
+              router.push({ 
+                pathname: '/detail', 
+                params: { donneesSae: JSON.stringify(item) } 
+              });
+            }}
+          >
+            <Text style={styles.titreSae}>{item.ueCorrespondante}</Text>
+            <Text style={styles.sousTitreSae}>{item.domaine}  •  {item.annee}</Text>
+            <Text style={styles.moyennePill}>Moyenne : {item.moyenneSae ? item.moyenneSae.toFixed(1) + '/20' : 'Aucune'}</Text>
+            <Text style={styles.lien}>Voir les détails ➔</Text>
+          </TouchableOpacity>
+        )}
+      />
+
+      <View style={styles.boutonBas}>
+        <Button 
+          title="Créer une nouvelle SAé" 
+          onPress={() => router.push('/ajouter-sae')} 
+        />
+      </View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
+  conteneur: { flex: 1, padding: 20, paddingTop: 60, backgroundColor: '#f8f9fa' },
+  titrePage: { fontSize: 26, fontWeight: '800', marginBottom: 25, textAlign: 'center', color: '#1e293b' },
+  carteSae: { backgroundColor: '#ffffff', padding: 20, marginBottom: 15, borderRadius: 12, borderWidth: 1, borderColor: '#e2e8f0', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.05, shadowRadius: 3, elevation: 2 },
+  titreSae: { fontSize: 20, fontWeight: '800', color: '#0f172a', marginBottom: 4 },
+  sousTitreSae: { fontSize: 14, color: '#64748b', marginBottom: 12, fontWeight: '500' },
+  moyennePill: { alignSelf: 'flex-start', backgroundColor: '#f1f5f9', paddingHorizontal: 10, paddingVertical: 4, borderRadius: 6, overflow: 'hidden', color: '#475569', fontWeight: 'bold', fontSize: 13 },
+  lien: { color: '#3b82f6', marginTop: 15, fontWeight: '700', fontSize: 15 },
+  boutonBas: { marginTop: 10, marginBottom: 30, borderRadius: 8, overflow: 'hidden' }
 });
