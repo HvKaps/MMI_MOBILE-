@@ -27,7 +27,6 @@ public class groupe {
     public List<etudiant> getEtudiants() { return etudiants; } public void setEtudiants(List<etudiant> etudiants) { this.etudiants = etudiants; }
 
     public void addEtudiant(etudiant e) {
-        // Le videur regarde la limite fixée par la SAé (4 par défaut si rien n'est précisé)
         int limite = (this.sae != null && this.sae.getMaxPersonnesParGroupe() != null)
                 ? this.sae.getMaxPersonnesParGroupe() : 4;
 

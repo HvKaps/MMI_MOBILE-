@@ -13,7 +13,6 @@ public class sae {
     private String annee, semestre, domaine, ueCorrespondante, competences, lienSite, lienProductions;
     private LocalDate dateDebut, dateFin;
 
-    // NOUVEAU : La limite de personnes par groupe définie lors de la création
     private Integer maxPersonnesParGroupe;
 
     @ElementCollection

@@ -13,5 +13,4 @@ public interface saeRepository extends JpaRepository<sae, Long> {
 
     List<sae> findByDomaine(String domaine);
 
-    // L'ancienne méthode de tri a été supprimée ici !
 }

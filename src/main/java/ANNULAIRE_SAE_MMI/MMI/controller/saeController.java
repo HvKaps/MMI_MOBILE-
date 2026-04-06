@@ -23,7 +23,6 @@ public class saeController {
     public sae ajouterGroupe(@PathVariable Long id, @RequestBody groupe g) {
         sae s = saeRepo.findById(id).orElseThrow();
 
-        // Astuce : Si le groupe contient déjà des étudiants depuis le Front, on les relie !
         if (g.getEtudiants() != null) {
             for (etudiant e : g.getEtudiants()) {
                 e.setGroupe(g);
