@@ -1,5 +1,4 @@
-Réalisé par Hugo Fernandes et Ruben da Silva
----
+Réalisé par Ruben et Hugo 
 
 Technologies Utilisées
 
